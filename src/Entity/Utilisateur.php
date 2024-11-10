@@ -5,7 +5,8 @@ namespace App\Entity;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
-
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\InheritanceType("SINGLE_TABLE")]
 #[ORM\DiscriminatorColumn(name: "type", type: "string")]
@@ -19,13 +20,13 @@ class Utilisateur
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Nom = null;
+    private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Prenom = null;
+    private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Telephone = null;
+    private ?string $telephone = null;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
@@ -42,6 +43,20 @@ class Utilisateur
     #[ORM\Column(length: 255)]
     private ?string $profilePic = null;
 
+    #[ORM\OneToMany(mappedBy: "sender", targetEntity: Message::class)]
+    private Collection $sentMessages;
+    #[ORM\OneToMany(mappedBy: "utilisateur", targetEntity: Reclamation::class)]
+    private Collection $reclamations;
+
+    #[ORM\OneToMany(mappedBy: "utilisateur", targetEntity: Avis::class)]
+    private Collection $avis;
+
+    public function __construct()
+    {
+        $this->sentMessages = new ArrayCollection();
+        $this->reclamations = new ArrayCollection();
+        $this->avis = new ArrayCollection();
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -49,34 +64,34 @@ class Utilisateur
 
     public function getNom(): ?string
     {
-        return $this->Nom;
+        return $this->nom;
     }
 
-    public function setNom(string $Nom): static
+    public function setNom(string $nom): static
     {
-        $this->Nom = $Nom;
+        $this->nom = $nom;
         return $this;
     }
 
     public function getPrenom(): ?string
     {
-        return $this->Prenom;
+        return $this->prenom;
     }
 
-    public function setPrenom(string $Prenom): static
+    public function setPrenom(string $prenom): static
     {
-        $this->Prenom = $Prenom;
+        $this->prenom = $prenom;
         return $this;
     }
 
     public function getTelephone(): ?string
     {
-        return $this->Telephone;
+        return $this->telephone;
     }
 
-    public function setTelephone(string $Telephone): static
+    public function setTelephone(string $telephone): static
     {
-        $this->Telephone = $Telephone;
+        $this->telephone = $telephone;
         return $this;
     }
 
@@ -134,17 +149,8 @@ class Utilisateur
         $this->profilePic = $profilePic;
         return $this;
     }
-    private $sentMessages;
 
-    #[ORM\OneToMany(mappedBy: "utilisateur", targetEntity: Reclamation::class)]
-    private Collection $reclamations;
 
-    #[ORM\OneToMany(mappedBy: "utilisateur", targetEntity: Avis::class)]
-    private Collection $avis;
 
-    public function __construct()
-    {
-        $this->reclamations = new ArrayCollection();
-        $this->avis = new ArrayCollection();
-    }
+
 }
