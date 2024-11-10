@@ -16,6 +16,15 @@ class Conducteur
     #[ORM\Column(length: 20)]
     private ?string $cin = null;
 
+
+    #[ORM\OneToMany(mappedBy: "conducteur", targetEntity: Annonce::class)]
+    private Collection $annonces;
+
+    public function __construct()
+    {
+        $this->annonces = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -32,11 +41,30 @@ class Conducteur
 
         return $this;
     }
-    #[ORM\OneToMany(mappedBy: "conducteur", targetEntity: Annonce::class)]
-    private Collection $annonces;
-
-    public function __construct()
+    public function getAnnonces(): Collection
     {
-        $this->annonces = new ArrayCollection();
+        return $this->annonces;
     }
+
+    public function addAnnonce(Annonce $annonce): static
+    {
+        if (!$this->annonces->contains($annonce)) {
+            $this->annonces->add($annonce);
+            $annonce->setConducteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnnonce(Annonce $annonce): static
+    {
+        if ($this->annonces->removeElement($annonce)) {
+            if ($annonce->getConducteur() === $this) {
+                $annonce->setConducteur(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

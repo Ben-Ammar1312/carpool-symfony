@@ -5,13 +5,15 @@ namespace App\Entity;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\InheritanceType("SINGLE_TABLE")]
 #[ORM\DiscriminatorColumn(name: "type", type: "string")]
 #[ORM\DiscriminatorMap(["utilisateur" => Utilisateur::class, "conducteur" => Conducteur::class, "admin" => Admin::class, "passager" => Passager::class])]
 #[Broadcast]
-class Utilisateur
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -146,5 +148,32 @@ class Utilisateur
     {
         $this->reclamations = new ArrayCollection();
         $this->avis = new ArrayCollection();
+    }
+
+
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email; // Ou une autre propriété unique pour identifier l'utilisateur
+    }
+
+
+    public function getRoles(): array
+    {
+        return ['ROLE_USER'];
+    }
+
+
+
+    public function getSalt(): ?string
+    {
+        return null;
+    }
+
+
+
+    public function eraseCredentials(): void
+    {
+        // Efface les données sensibles, comme le mot de passe brut
     }
 }
