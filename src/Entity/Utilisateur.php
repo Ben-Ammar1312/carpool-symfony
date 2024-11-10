@@ -5,13 +5,17 @@ namespace App\Entity;
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\InheritanceType("SINGLE_TABLE")]
 #[ORM\DiscriminatorColumn(name: "type", type: "string")]
-#[ORM\DiscriminatorMap(["utilisateur" => Utilisateur::class, "conducteur" => Conducteur::class, "admin" => Admin::class, "passager" => Passager::class])]
+#[ORM\DiscriminatorMap(["utilisation" => Utilisateur::class, "conductor" => Conducteur::class, "admin" => Admin::class, "passager" => Passager::class])]
 #[Broadcast]
-class Utilisateur
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -41,6 +45,23 @@ class Utilisateur
 
     #[ORM\Column(length: 255)]
     private ?string $profilePic = null;
+
+    #[ORM\Column]
+    private array $roles = [];
+
+
+
+    #[ORM\OneToMany(targetEntity: Reclamation::class, mappedBy: "utilisateur")]
+    private Collection $reclamations;
+
+    #[ORM\OneToMany(targetEntity: Avis::class, mappedBy: "utilisateur")]
+    private Collection $avis;
+
+    public function __construct()
+    {
+        $this->reclamations = new ArrayCollection();
+        $this->avis = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -91,6 +112,19 @@ class Utilisateur
         return $this;
     }
 
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
     public function getPassword(): ?string
     {
         return $this->password;
@@ -134,17 +168,26 @@ class Utilisateur
         $this->profilePic = $profilePic;
         return $this;
     }
-    private $sentMessages;
 
-    #[ORM\OneToMany(mappedBy: "utilisateur", targetEntity: Reclamation::class)]
-    private Collection $reclamations;
-
-    #[ORM\OneToMany(mappedBy: "utilisateur", targetEntity: Avis::class)]
-    private Collection $avis;
-
-    public function __construct()
+    public function eraseCredentials(): void
     {
-        $this->reclamations = new ArrayCollection();
-        $this->avis = new ArrayCollection();
+        // Si vous stockez des données sensibles, comme un mot de passe en clair
+    }
+
+
+    public function getUserIdentifier(): string
+    {
+        return $this->getEmail();
+    }
+
+
+    public function getReclamations(): Collection
+    {
+        return $this->reclamations;
+    }
+
+    public function getAvis(): Collection
+    {
+        return $this->avis;
     }
 }

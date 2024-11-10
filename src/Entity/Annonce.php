@@ -153,6 +153,6 @@ class Annonce
 
         return $this;
     }
-    #[ORM\ManyToOne(targetEntity: Conducteur::class)]
+    #[ORM\ManyToOne(targetEntity: Conducteur::class,inversedBy:"annonces")]
     private Conducteur $conducteur;
 }

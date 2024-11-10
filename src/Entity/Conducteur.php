@@ -39,4 +39,8 @@ class Conducteur
     {
         $this->annonces = new ArrayCollection();
     }
+    public function getAnnonces(): Collection
+    {
+        return $this->annonces;
+    }
 }
