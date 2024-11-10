@@ -41,6 +41,8 @@ class Annonce
     #[ORM\Column(type: Types::BIGINT, nullable: true)]
     private ?string $prix = null;
 
+    #[ORM\ManyToOne(targetEntity: Conducteur::class, inversedBy: "annonces")]
+    private ?Conducteur $conducteur = null;
     public function getId(): ?int
     {
         return $this->id;
@@ -153,6 +155,15 @@ class Annonce
 
         return $this;
     }
-    #[ORM\ManyToOne(targetEntity: Conducteur::class)]
-    private Conducteur $conducteur;
+
+
+    public function getConducteur(): ?Conducteur
+    {
+        return $this->conducteur;
+    }
+
+    public function setConducteur(?Conducteur $conducteur): void
+    {
+        $this->conducteur = $conducteur;
+    }
 }
