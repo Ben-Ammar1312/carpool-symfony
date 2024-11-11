@@ -1,6 +1,0 @@
-{
-    "controllers": {
-        "hello": "./controllers/hello_controller.js",
-        "map": "./controllers/map_controller.js"
-    }
-}
