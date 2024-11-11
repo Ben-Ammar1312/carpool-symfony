@@ -4,12 +4,13 @@ namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\UX\Turbo\Attribute\Broadcast;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-
-use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Symfony\UX\Turbo\Attribute\Broadcast;
+
+
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\InheritanceType("SINGLE_TABLE")]
 #[ORM\DiscriminatorColumn(name: "type", type: "string")]
@@ -31,7 +32,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $telephone = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
@@ -43,9 +44,10 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 20)]
     private ?string $username = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $profilePic = null;
 
+    private array $roles = [];
     #[ORM\OneToMany(mappedBy: "sender", targetEntity: Message::class)]
     private Collection $sentMessages;
     #[ORM\OneToMany(mappedBy: "utilisateur", targetEntity: Reclamation::class)]
@@ -58,8 +60,10 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->sentMessages = new ArrayCollection();
         $this->reclamations = new ArrayCollection();
+        $this->roles = ['ROLE_USER'];
         $this->avis = new ArrayCollection();
     }
+      
     public function getId(): ?int
     {
         return $this->id;
@@ -144,27 +148,31 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getProfilePic(): ?string
     {
-        return $this->profilePic;
+        return $this->profilePic ?? '/images/default-profile.png';
     }
 
-    public function setProfilePic(string $profilePic): static
+    public function setProfilePic(?string $profilePic): static
     {
         $this->profilePic = $profilePic;
         return $this;
     }
 
-
-
-    public function getUserIdentifier(): string
-    {
-        return $this->email; // Ou une autre propriété unique pour identifier l'utilisateur
-    }
-
-
+ 
     public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        return array_unique($this->roles);
     }
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+    public function eraseCredentials(): void {}
+
+    public function getUserIdentifier(): string{
+        return $this->email; // Ou une autre propriété unique pour identifier l'utilisateur
+
+}
 
 
 
@@ -175,8 +183,5 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
 
 
-    public function eraseCredentials(): void
-    {
-        // Efface les données sensibles, comme le mot de passe brut
-    }
+
 }
