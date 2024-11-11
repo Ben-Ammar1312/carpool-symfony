@@ -155,14 +155,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
 
 
-    public function __construct()
-    {
-        $this->reclamations = new ArrayCollection();
-        $this->avis = new ArrayCollection();
-    }
-
-
-
     public function getUserIdentifier(): string
     {
         return $this->email; // Ou une autre propriété unique pour identifier l'utilisateur
