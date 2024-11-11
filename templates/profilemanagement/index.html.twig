@@ -1,0 +1,136 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileManagementController!{% endblock %}
+
+{% block body %}
+    <header>
+      <div>Carpool</div>
+      <nav>
+        <a href="#">Sign In</a>
+        <a href="#">Sign Up</a>
+        <a href="#">Profile</a>
+      </nav>
+    </header>
+    <section class="hero">
+      <h1>Your Profile</h1>
+        <form class="profile-form" method="post" action="{{ path('app_profile_update') }}">
+            <!-- Hidden field for user.id, always included -->
+            <input type="hidden" name="id" value="{{ user.id }}" />
+
+            <!-- Profile fields with initial values -->
+            <input type="text" placeholder="Nom" name="nom" value="{{ user.nom }}" required />
+            <input type="text" placeholder="Prénom" name="prenom" value="{{ user.prenom }}" required />
+            <input type="email" placeholder="Adresse Email" name="email" value="{{ user.email }}" required />
+            <input type="password" placeholder="Password" name="password" value="{{ user.password }}" required />
+            <input type="password" placeholder="Confirm Password" name="confirm_password" value="{{ user.password }}" required />
+            <input type="text" placeholder="Username" name="username" value="{{ user.username }}" required />
+            <input type="text" id="profilePic" name="profilePic" placeholder="Photo de profile" value="{{ user.profilePic }}" required />
+
+
+
+            <!-- Submit button -->
+            <button type="submit">Update Profile</button>
+        </form>
+        <!-- File input for selecting profile picture -->
+        <label for="fileUpload">Select Profile Picture:</label>
+        <input type="file" id="fileUpload" accept="image/*" />
+
+        <script>
+            // JavaScript to handle file selection and update the profile picture path
+            document.getElementById("fileUpload").addEventListener("change", function(event) {
+                // Get the selected file
+                const file = event.target.files[0];
+
+                if (file) {
+                    // Set the file path or name in the profile picture input
+                    document.getElementById("profilePic").value = file.name;
+                }
+            });
+            const profileForm = document.querySelector('.profile-form');
+            const originalValues = {
+                nom: "{{ user.nom }}",
+                prenom: "{{ user.prenom }}",
+                email: "{{ user.email }}",
+                password: "{{ user.password }}",
+                username: "{{ user.username }}",
+                profilePic: "{{ user.profilePic }}",
+            };
+
+            profileForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                const formData = new FormData(profileForm);
+                const changedFields = {};
+
+                // Check for changed fields
+                for (let [name, value] of formData.entries()) {
+                    if (originalValues[name] !== value) {
+                        changedFields[name] = value;
+                    }
+                }
+
+                // Always send user.id, but do not overwrite it in changedFields
+                if (!changedFields.id) {
+                    changedFields.id = formData.get('id');
+                }
+
+                // Prepare the request payload
+                const payload = new URLSearchParams(changedFields);
+
+                // Send changed fields via AJAX
+                fetch('{{ path('app_profile_update') }}', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: payload
+                })
+                    .then(response => response.json())
+                    .then(data => {
+
+                        window.location.href = '/profilemanagement';
+                    })
+                    .catch(error => {
+                        window.location.href = '/profilemanagement';
+                    });
+            });
+        </script>
+
+        <button class="delete-account" onclick="deleteAccount()">Delete Account</button>
+
+        <script>
+            function deleteAccount() {
+                const userId = "{{ user.id }}";  // Get the user ID from the Twig variable
+
+                if (confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+                    fetch('{{ path('app_delete_account') }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ id: userId })  // Send the user ID in the request body
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.status === 'success') {
+                                alert('Account deleted successfully.');
+                                window.location.href = '/login';  // Redirect to the home page or login page
+                            } else {
+                                window.location.href = '/login';
+                            }
+                        })
+                        .catch(error => {
+                            window.location.href = '/login';
+                        });
+                }
+            }
+        </script>
+    </section>
+    <footer>
+      <p>Contact Us | Privacy Policy | Terms of Service</p>
+      <a href="#">Facebook</a>
+      <a href="#">Twitter</a>
+      <a href="#">Instagram</a>
+    </footer>
+
+
+
+{% endblock %}
