@@ -4,14 +4,15 @@ namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\UX\Turbo\Attribute\Broadcast;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-#[ORM\InheritanceType("SINGLE_TABLE")]
-#[ORM\DiscriminatorColumn(name: "type", type: "string")]
-#[ORM\DiscriminatorMap(["utilisateur" => Utilisateur::class, "conducteur" => Conducteur::class, "admin" => Admin::class, "passager" => Passager::class])]
-#[Broadcast]
-class Utilisateur
+#[UniqueEntity(fields: ['email'], message: 'Il existe déjà un compte avec cet email')]
+class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -19,15 +20,15 @@ class Utilisateur
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Nom = null;
+    private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Prenom = null;
+    private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Telephone = null;
+    private ?string $telephone = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
@@ -39,8 +40,18 @@ class Utilisateur
     #[ORM\Column(length: 20)]
     private ?string $username = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $profilePic = null;
+
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
+
+    public function __construct()
+    {
+        $this->roles = ['ROLE_USER'];
+    }
+
+    // Getters and Setters for each field
 
     public function getId(): ?int
     {
@@ -49,34 +60,34 @@ class Utilisateur
 
     public function getNom(): ?string
     {
-        return $this->Nom;
+        return $this->nom;
     }
 
-    public function setNom(string $Nom): static
+    public function setNom(string $nom): static
     {
-        $this->Nom = $Nom;
+        $this->nom = $nom;
         return $this;
     }
 
     public function getPrenom(): ?string
     {
-        return $this->Prenom;
+        return $this->prenom;
     }
 
-    public function setPrenom(string $Prenom): static
+    public function setPrenom(string $prenom): static
     {
-        $this->Prenom = $Prenom;
+        $this->prenom = $prenom;
         return $this;
     }
 
     public function getTelephone(): ?string
     {
-        return $this->Telephone;
+        return $this->telephone;
     }
 
-    public function setTelephone(string $Telephone): static
+    public function setTelephone(string $telephone): static
     {
-        $this->Telephone = $Telephone;
+        $this->telephone = $telephone;
         return $this;
     }
 
@@ -126,25 +137,30 @@ class Utilisateur
 
     public function getProfilePic(): ?string
     {
-        return $this->profilePic;
+        return $this->profilePic ?? '/images/default-profile.png';
     }
 
-    public function setProfilePic(string $profilePic): static
+    public function setProfilePic(?string $profilePic): static
     {
         $this->profilePic = $profilePic;
         return $this;
     }
-    private $sentMessages;
 
-    #[ORM\OneToMany(mappedBy: "utilisateur", targetEntity: Reclamation::class)]
-    private Collection $reclamations;
-
-    #[ORM\OneToMany(mappedBy: "utilisateur", targetEntity: Avis::class)]
-    private Collection $avis;
-
-    public function __construct()
+    public function getRoles(): array
     {
-        $this->reclamations = new ArrayCollection();
-        $this->avis = new ArrayCollection();
+        return array_unique($this->roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+    public function eraseCredentials(): void {}
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
     }
 }
