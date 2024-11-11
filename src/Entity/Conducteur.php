@@ -39,7 +39,30 @@ class Conducteur
 
         return $this;
     }
+    public function getAnnonces(): Collection
+    {
+        return $this->annonces;
+    }
 
+    public function addAnnonce(Annonce $annonce): static
+    {
+        if (!$this->annonces->contains($annonce)) {
+            $this->annonces->add($annonce);
+            $annonce->setConducteur($this);
+        }
 
+        return $this;
+    }
+
+    public function removeAnnonce(Annonce $annonce): static
+    {
+        if ($this->annonces->removeElement($annonce)) {
+            if ($annonce->getConducteur() === $this) {
+                $annonce->setConducteur(null);
+            }
+        }
+
+        return $this;
+    }
 
 }
