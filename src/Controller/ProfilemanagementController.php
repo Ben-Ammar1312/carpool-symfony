@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ProfilemanagementController extends AbstractController
 {
+    private UtilisateurRepository $utilisateurRepository;
     public function __construct(UtilisateurRepository $utilisateurRepository)
     {
         $this->utilisateurRepository = $utilisateurRepository;
