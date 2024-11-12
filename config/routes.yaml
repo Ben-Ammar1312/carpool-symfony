@@ -4,6 +4,3 @@ controllers:
         namespace: App\Controller
     type: attribute
 
-app_dashboard:
-    path: /dashboard
-    controller: App\Controller\DashboardController::index

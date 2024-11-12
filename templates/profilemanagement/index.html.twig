@@ -3,14 +3,6 @@
 {% block title %}Hello ProfileManagementController!{% endblock %}
 
 {% block body %}
-    <header>
-      <div>Carpool</div>
-      <nav>
-        <a href="#">Sign In</a>
-        <a href="#">Sign Up</a>
-        <a href="#">Profile</a>
-      </nav>
-    </header>
     <section class="hero">
       <h1>Your Profile</h1>
         <form class="profile-form" method="post" action="{{ path('app_profile_update') }}">

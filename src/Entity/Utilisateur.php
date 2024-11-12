@@ -8,14 +8,13 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Symfony\UX\Turbo\Attribute\Broadcast;
+
 
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\InheritanceType("SINGLE_TABLE")]
 #[ORM\DiscriminatorColumn(name: "type", type: "string")]
 #[ORM\DiscriminatorMap(["utilisateur" => Utilisateur::class, "conducteur" => Conducteur::class, "admin" => Admin::class, "passager" => Passager::class])]
-#[Broadcast]
 class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -32,6 +31,19 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $telephone = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $username = null;
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(?string $username): void
+    {
+        $this->username = $username;
+    }
+
     #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
@@ -40,9 +52,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 10)]
     private ?string $genre = null;
-
-    #[ORM\Column(length: 20)]
-    private ?string $username = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $profilePic = null;
@@ -60,7 +69,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->sentMessages = new ArrayCollection();
         $this->reclamations = new ArrayCollection();
-        $this->roles = ['ROLE_USER'];
         $this->avis = new ArrayCollection();
     }
       
@@ -135,16 +143,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
 
-    public function setUsername(string $username): static
-    {
-        $this->username = $username;
-        return $this;
-    }
 
     public function getProfilePic(): ?string
     {
@@ -160,7 +159,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
  
     public function getRoles(): array
     {
-        return array_unique($this->roles);
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
     }
     public function setRoles(array $roles): static
     {
