@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: symfony_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: carpool_symfony
+      MYSQL_USER: mohamed
+      MYSQL_PASSWORD: qwerty
+    ports:
+      - "3306:3306"
+    networks:
+      - dev
+
+  web:
+    build: ./php
+    container_name: symfony_app
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - db
+    networks:
+      - dev
+
+networks:
+  dev:
