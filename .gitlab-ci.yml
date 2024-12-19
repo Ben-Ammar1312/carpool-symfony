@@ -75,10 +75,10 @@ phpunit:
     - name: mysql:8.0.32
       alias: symfony_db
   variables:
-    MYSQL_ROOT_PASSWORD: pass_test
-    MYSQL_DATABASE: myapptest
-    MYSQL_USER: myapptest
-    MYSQL_PASSWORD: myapptest
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: carpool_symfony
+    MYSQL_USER: mohamed
+    MYSQL_PASSWORD: qwerty
     DATABASE_URL: "mysql://root:pass_test@symfony_db:3306/myapptest"
   before_script:
     - apt-get update && apt-get install -y git libzip-dev default-mysql-client
