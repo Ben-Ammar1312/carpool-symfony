@@ -15,7 +15,7 @@ services:
           - symfony_db
 
   web:
-    build: ./docker/php
+    build: php
     container_name: symfony_app
     ports:
       - "8080:80"
