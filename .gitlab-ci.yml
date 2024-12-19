@@ -98,7 +98,13 @@ build_image:
   image: docker:20.10.16
   services:
     - docker:20.10.16-dind
+  before_script:
+    # Install necessary packages
+    - apk add --no-cache curl php-cli
+    # Download and install Composer
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
   script:
+    - composer install --no-interaction --no-progress --prefer-dist
     # Login to Docker registry and build image
     - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
     - docker build -t $DOCKER_HUB_USERNAME/$CI_PROJECT_NAME:$CI_COMMIT_SHORT_SHA .
