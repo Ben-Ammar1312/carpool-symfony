@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Doctrine\ORM\EntityManagerInterface;
 
-
 class ProfilemanagementController extends AbstractController
 {
     private UtilisateurRepository $utilisateurRepository;
@@ -24,7 +23,7 @@ class ProfilemanagementController extends AbstractController
     #[Route('/profilemanagement', name: 'app_profilemanagement')]
     public function index(): Response
     {
-        $user = $this->utilisateurRepository->findOneBy(['id'=>8]);
+        $user = $this->utilisateurRepository->findOneBy(['id' => 8]);
         return $this->render('profilemanagement/index.html.twig', [
             'controller_name' => 'ProfilemanagementController',
             'user' => $user,
@@ -49,22 +48,22 @@ class ProfilemanagementController extends AbstractController
         }
 
         // Update fields only if they were changed in the form
-        if ($request->request->get('nom') != NUll){
+        if ($request->request->get('nom') != null) {
             $utilisateur->setNom($request->request->get('nom'));
         }
-        if ($request->request->get('prenom') != NUll){
+        if ($request->request->get('prenom') != null) {
             $utilisateur->setPrenom($request->request->get('prenom'));
         }
-        if ($request->request->get('email') != NUll){
+        if ($request->request->get('email') != null) {
             $utilisateur->setEmail($request->request->get('email'));
         }
-        if ($request->request->get('password') != NUll){
+        if ($request->request->get('password') != null) {
             $utilisateur->setPassword($request->request->get('password'));
         }
-        if ($request->request->get('username') != NUll){
+        if ($request->request->get('username') != null) {
             $utilisateur->setUsername($request->request->get('username'));
         }
-        if ($request->request->get('profilePic') != NUll){
+        if ($request->request->get('profilePic') != null) {
             $utilisateur->setProfilePic($request->request->get('profilePic'));
         }
 
@@ -96,5 +95,3 @@ class ProfilemanagementController extends AbstractController
         return $this->render('security/login.html.twig');
     }
 }
-
-

@@ -80,5 +80,4 @@ class Reservation
     }
     #[ORM\ManyToOne(targetEntity: Annonce::class)]
     private ?Annonce $annonce;
-
 }

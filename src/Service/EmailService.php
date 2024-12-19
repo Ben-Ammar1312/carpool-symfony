@@ -1,17 +1,21 @@
 <?php
 
 namespace App\Service;
+
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
-class EmailService {
+class EmailService
+{
     private $mailer;
 
-    public function __construct(MailerInterface $mailer) {
+    public function __construct(MailerInterface $mailer)
+    {
         $this->mailer = $mailer;
     }
 
-    public function sendTestEmail() {
+    public function sendTestEmail()
+    {
         $email = (new Email())
             ->from('mr.weezy1312@gmail.com')
             ->to('mr.weezy1312@gmail.com')

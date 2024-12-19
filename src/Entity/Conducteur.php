@@ -64,5 +64,4 @@ class Conducteur
 
         return $this;
     }
-
 }

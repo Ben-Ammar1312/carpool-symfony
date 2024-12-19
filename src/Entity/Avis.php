@@ -34,5 +34,4 @@ class Avis
     }
     #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: "avis")]
     private Utilisateur $utilisateur;
-
 }

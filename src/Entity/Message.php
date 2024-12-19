@@ -76,6 +76,6 @@ class Message
     #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
     private Utilisateur $receiver;
 
-    #[ORM\ManyToOne(targetEntity: Utilisateur::class , inversedBy: 'sentMessages')]
+    #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'sentMessages')]
     private Utilisateur $sender;
 }

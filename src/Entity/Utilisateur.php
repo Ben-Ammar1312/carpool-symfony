@@ -9,8 +9,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
-
-
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\InheritanceType("SINGLE_TABLE")]
 #[ORM\DiscriminatorColumn(name: "type", type: "string")]
@@ -72,7 +70,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $this->reclamations = new ArrayCollection();
         $this->avis = new ArrayCollection();
     }
-      
+
     public function getId(): ?int
     {
         return $this->id;
@@ -157,7 +155,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
- 
+
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -169,12 +167,14 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles = $roles;
         return $this;
     }
-    public function eraseCredentials(): void {}
+    public function eraseCredentials(): void
+    {
+    }
 
-    public function getUserIdentifier(): string{
+    public function getUserIdentifier(): string
+    {
         return $this->email; // Ou une autre propriété unique pour identifier l'utilisateur
-
-}
+    }
 
 
 
@@ -182,8 +182,4 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return null;
     }
-
-
-
-
 }
