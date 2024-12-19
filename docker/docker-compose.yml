@@ -11,8 +11,7 @@ services:
       - "3306:3306"
     networks:
       dev:
-        aliases:
-          - symfony_db
+
 
   web:
     build: php
