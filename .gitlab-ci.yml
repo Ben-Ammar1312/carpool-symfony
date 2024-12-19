@@ -1,6 +1,7 @@
 image: jakzal/phpqa:php8.2 # A pre-built image containing many QA tools
 
 stages:
+  - setup
   - security
   - coding_standards
   - test
@@ -15,7 +16,17 @@ cache:
 before_script:
   # Install dependencies
   - composer install --no-interaction --no-progress --prefer-dist
-
+setup:
+  stage: setup
+  script:
+    - cp .env.dist .env
+    - echo "APP_ENV=${APP_ENV}" > .env
+    - echo "DATABASE_URL=${DATABASE_URL}" >> .env
+    - echo "TWILIO_SID=${TWILIO_SID}" >> .env
+    - echo "TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}" >> .env
+  artifacts:
+    paths:
+      - .env
 security_check:
   stage: security
   script:
