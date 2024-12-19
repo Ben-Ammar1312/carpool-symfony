@@ -39,7 +39,7 @@ security:
     
 
     access_control:
-        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/logout$, roles: IS_AUTHENTICATED_ANONYMOUSLY }  # Added logout
+     #   - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      #  - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       # - { path: ^/logout$, roles: IS_AUTHENTICATED_ANONYMOUSLY }  # Added logout
         #- { path: ^/, roles: ROLE_USER }

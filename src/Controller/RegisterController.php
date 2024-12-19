@@ -17,7 +17,6 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class RegisterController extends AbstractController
 {
-
     #[Route('/register', name: 'app_register')]
     public function index(
         Request $request,
