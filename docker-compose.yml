@@ -1,6 +1,6 @@
 services:
   db:
-    image: mysql:8.0
+    image: mysql:8.0.32
     container_name: symfony_db
     environment:
       MYSQL_ROOT_PASSWORD: root
