@@ -24,6 +24,7 @@ setup:
     - echo "DATABASE_URL=${DATABASE_URL}" >> .env
     - echo "TWILIO_SID=${TWILIO_SID}" >> .env
     - echo "TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}" >> .env
+    - echo "MERCURE_JWT_SECRET=${MERCURE_JWT_SECRET}" >> .env
   artifacts:
     paths:
       - .env
