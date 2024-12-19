@@ -19,8 +19,12 @@ class RegisterController extends AbstractController
 {
     #[IsGranted("ROLE_USER")]
     #[Route('/register', name: 'app_register')]
-    public function index(Request $request, UserPasswordHasherInterface $passwordHasher,
-                          EntityManagerInterface $entityManager, LoggerInterface $logger): Response
+    public function index(
+        Request $request,
+        UserPasswordHasherInterface $passwordHasher,
+        EntityManagerInterface $entityManager,
+        LoggerInterface $logger
+    ): Response
     {
         $user = new Utilisateur();
         $form = $this->createForm(RegisterFormType::class, $user);
