@@ -20,7 +20,8 @@ class VerificationController extends AbstractController
 
     private UtilisateurRepository $utilisateurRepository;
 
-    public function __construct(TwilioService $twilioVerifyService, EmailService $emailService, UtilisateurRepository $utilisateurRepository)
+    public function __construct(TwilioService $twilioVerifyService, EmailService $emailService,
+                                UtilisateurRepository $utilisateurRepository)
     {
         $this->twilioVerifyService = $twilioVerifyService;
         $this->emailService = $emailService;
