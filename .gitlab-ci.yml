@@ -79,7 +79,7 @@ phpunit:
     MYSQL_DATABASE: carpool_symfony
     MYSQL_USER: mohamed
     MYSQL_PASSWORD: qwerty
-    DATABASE_URL: "mysql://mohamed:qwerty@symfony_db:3306/carpool_symfony"
+    DATABASE_URL: "mysql://root:root@symfony_db:3306/carpool_symfony"
   before_script:
     - apt-get update && apt-get install -y git libzip-dev default-mysql-client
     - curl -sS https://getcomposer.org/installer | php -- --disable-tls && mv composer.phar /usr/local/bin/composer
