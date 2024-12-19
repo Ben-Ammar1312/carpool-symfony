@@ -10,7 +10,9 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - dev
+      dev:
+        aliases:
+          - symfony_db
 
   web:
     build: ./docker/php
