@@ -24,8 +24,7 @@ class VerificationController extends AbstractController
         TwilioService $twilioVerifyService,
         EmailService $emailService,
         UtilisateurRepository $utilisateurRepository
-    )
-    {
+    ){
         $this->twilioVerifyService = $twilioVerifyService;
         $this->emailService = $emailService;
         $this->utilisateurRepository = $utilisateurRepository;
