@@ -55,4 +55,5 @@ class RegisterControllerTest extends WebTestCase
         $client->followRedirect();
         $this->assertSelectorTextContains('.alert-danger', 'Les mots de passe ne correspondent pas.');
     }
+
 }

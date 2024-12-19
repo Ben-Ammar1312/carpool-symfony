@@ -3,14 +3,14 @@ services:
     image: mysql:8.0
     container_name: symfony_db
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"  # Allow root with no password
       MYSQL_DATABASE: carpool_symfony
-      MYSQL_USER: mohamed
-      MYSQL_PASSWORD: qwerty
     ports:
       - "3306:3306"
     networks:
-      - dev
+      dev:
+
+
 
   web:
     build: ./docker/php
