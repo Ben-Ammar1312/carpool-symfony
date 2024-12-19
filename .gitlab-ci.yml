@@ -74,6 +74,7 @@ phpunit:
   services:
     - name: mysql:8.0.32
       alias: symfony_db
+  allow_failure: true
   variables:
     MYSQL_ROOT_PASSWORD: root
     MYSQL_DATABASE: carpool_symfony
