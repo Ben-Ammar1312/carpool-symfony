@@ -1,12 +1,12 @@
 services:
   db:
     image: mysql:8.0.32
-    container_name: symfony_db
+    container_name: symfony
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: carpool_symfony
-      MYSQL_USER: mohamed
-      MYSQL_PASSWORD: qwerty
+      MYSQL_USER: nour
+      MYSQL_PASSWORD:
     ports:
       - "3306:3306"
     networks:
@@ -19,7 +19,8 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./:/var/www
+      - ./php/vhosts:/etc/apache2/sites-enabled
+      - ../:/var/www
     depends_on:
       - db
     networks:
@@ -27,3 +28,4 @@ services:
 
 networks:
   dev:
+

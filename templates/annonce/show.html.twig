@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonce{% endblock %}
+
+{% block body %}
+    <h1>Annonce</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ annonce.id }}</td>
+            </tr>
+            <tr>
+                <th>DateDepart</th>
+                <td>{{ annonce.dateDepart ? annonce.dateDepart|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>NbrPlace</th>
+                <td>{{ annonce.nbrPlace }}</td>
+            </tr>
+            <tr>
+                <th>LieuDepart</th>
+                <td>{{ annonce.lieuDepart }}</td>
+            </tr>
+            <tr>
+                <th>LieuArrive</th>
+                <td>{{ annonce.lieuArrive }}</td>
+            </tr>
+            <tr>
+                <th>HeureDepart</th>
+                <td>{{ annonce.heureDepart }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ annonce.description }}</td>
+            </tr>
+            <tr>
+                <th>Aller_retour</th>
+                <td>{{ annonce.allerRetour }}</td>
+            </tr>
+            <tr>
+                <th>Regulier</th>
+                <td>{{ annonce.regulier ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ annonce.prix }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_annonce_index') }}">back to list</a>
+
+    <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">edit</a>
+
+    {{ include('annonce/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonce Index{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">Annonce Index</h1>
+
+        <table class="table table-striped table-hover text-center">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Date de départ</th>
+                <th scope="col">Nombre de places</th>
+                <th scope="col">Lieu de départ</th>
+                <th scope="col">Lieu d'arrivée</th>
+                <th scope="col">Heure de départ</th>
+                <th scope="col">Description</th>
+                <th scope="col">Aller-Retour</th>
+                <th scope="col">Régulier</th>
+                <th scope="col">Prix (DT)</th>
+                <th scope="col">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for annonce in annonces %}
+                <tr>
+                    <td>{{ annonce.id }}</td>
+                    <td>{{ annonce.dateDepart ? annonce.dateDepart|date('d-m-Y') : '' }}</td>
+                    <td>{{ annonce.nbrPlace }}</td>
+                    <td>{{ annonce.lieuDepart }}</td>
+                    <td>{{ annonce.lieuArrive }}</td>
+                    <td>{{ annonce.heureDepart ? annonce.heureDepart|date('H:i') : '' }}</td>
+                    <td>{{ annonce.description }}</td>
+                    <td>{{ annonce.allerRetour ? 'Oui' : 'Non' }}</td>
+                    <td>{{ annonce.regulier ? 'Oui' : 'Non' }}</td>
+                    <td>{{ annonce.prix }}</td>
+                    <td>
+                        <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}" class="btn btn-sm btn-info">Afficher</a>
+                        <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}" class="btn btn-sm btn-warning">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="11" class="text-center">Aucune annonce trouvée</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="text-center mt-4">
+            <a href="{{ path('app_annonce_new') }}" class="btn btn-primary">Créer une nouvelle annonce</a>
+        </div>
+    </div>
+{% endblock %}
