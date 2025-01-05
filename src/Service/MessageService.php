@@ -4,10 +4,10 @@ namespace App\Service;
 
 use App\Entity\Chat;
 use App\Entity\Message;
-use App\Entity\User;
+use App\Entity\Utilisateur;
 use App\Repository\ChatRepository;
 use App\Repository\MessageRepository;
-use App\Repository\UserRepository;
+use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -21,7 +21,7 @@ class MessageService
     public function __construct(
         MessageRepository $messageRepository,
         ChatRepository $chatRepository,
-        UserRepository $userRepository,
+        UtilisateurRepository $userRepository,
         EntityManagerInterface $entityManager
     ) {
         $this->messageRepository = $messageRepository;
