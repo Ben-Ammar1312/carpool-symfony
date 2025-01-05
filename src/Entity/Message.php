@@ -2,10 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\MessageRepository;
+use assets\Repository\MessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 class Message
 {
@@ -20,6 +19,11 @@ class Message
     #[ORM\Column(length: 100)]
     private ?string $content = null;
 
+    #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
+    private Utilisateur $receiver;
+
+    #[ORM\ManyToOne(targetEntity: Utilisateur::class, inversedBy: 'sentMessages')]
+    private Utilisateur $sender;
 
     public function getId(): ?int
     {
@@ -34,7 +38,6 @@ class Message
     public function setDateMessage(\DateTimeInterface $date_message): static
     {
         $this->date_message = $date_message;
-
         return $this;
     }
 
@@ -46,36 +49,28 @@ class Message
     public function setContent(string $content): static
     {
         $this->content = $content;
-
         return $this;
     }
 
-    public function getReceiver(): ?string
+    public function getReceiver(): ?Utilisateur
     {
         return $this->receiver;
     }
 
-    public function setReceiver(string $receiver): static
+    public function setReceiver(Utilisateur $receiver): static
     {
         $this->receiver = $receiver;
-
         return $this;
     }
 
-    public function getSender(): ?string
+    public function getSender(): ?Utilisateur
     {
         return $this->sender;
     }
 
-    public function setSender(string $sender): static
+    public function setSender(Utilisateur $sender): static
     {
         $this->sender = $sender;
-
         return $this;
     }
-    #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
-    private Utilisateur $receiver;
-
-    #[ORM\ManyToOne(targetEntity: Utilisateur::class , inversedBy: 'sentMessages')]
-    private Utilisateur $sender;
 }

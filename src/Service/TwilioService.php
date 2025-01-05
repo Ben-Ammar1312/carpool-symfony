@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Service;
 
 use Twilio\Rest\Client;
 use Twilio\Exceptions\TwilioException;
 
-class TwilioService {
+class TwilioService
+{
     private Client $twilioClient;
     private string $verifyServiceSid;
 
@@ -28,9 +30,9 @@ class TwilioService {
             ->verifications
             ->create($toNumber, $channel);
             return true;
-            } catch (TwilioException $e) {
+        } catch (TwilioException $e) {
         // Handle the exception (e.g., log the error)
-        return false;
+            return false;
         }
     }
 
@@ -41,20 +43,20 @@ class TwilioService {
 * @param string $code     The verification code provided by the user.
 * @return bool            True if verification is successful, false otherwise.
 */
-public function checkVerification(string $toNumber, string $code): bool
-{
-    try {
-        $verificationCheck = $this->twilioClient->verify->v2->services($this->verifyServiceSid)
-        ->verificationChecks
-        ->create([
-        'to' => $toNumber,
-        'code' => $code,
-        ]);
+    public function checkVerification(string $toNumber, string $code): bool
+    {
+        try {
+            $verificationCheck = $this->twilioClient->verify->v2->services($this->verifyServiceSid)
+            ->verificationChecks
+            ->create([
+            'to' => $toNumber,
+            'code' => $code,
+            ]);
 
-        return $verificationCheck->status === 'approved';
+            return $verificationCheck->status === 'approved';
         } catch (TwilioException $e) {
         // Handle the exception (e.g., log the error)
-        return false;
+            return false;
         }
-}
+    }
 }

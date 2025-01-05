@@ -3,82 +3,180 @@
 namespace App\Entity;
 
 use App\Repository\ReservationRepository;
-use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Enum\Etat;
 
 #[ORM\Entity(repositoryClass: ReservationRepository::class)]
 class Reservation
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[ORM\Column(type: "integer")]
+    private int $id_reservation;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_reservation = null;
+    #[ORM\Column(type: "string", length: 255)]
+    private string $date_reservation;
 
-    #[ORM\Column]
-    private ?int $nbrplace = null;
+    #[ORM\Column(type: "integer")]
+    private int $nbrPlaces;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $validite = null;
+    #[ORM\Column(type: "string", enumType: Etat::class)]
+    private Etat $etat;
 
-    #[ORM\Column(length: 20)]
-    private ?string $etat = null;
+    #[ORM\ManyToOne(targetEntity: Passager::class, inversedBy: "reservations")]
+    #[ORM\JoinColumn(nullable: false)]
+    private Passager $passager;
 
-    public function getId(): ?int
+    #[ORM\ManyToOne(targetEntity: Annonce::class, inversedBy: "reservations")]
+    #[ORM\JoinColumn(name: "idAnnonce", referencedColumnName: "idAnnonce", nullable: false)]
+    private Annonce $annonce;
+
+    #[ORM\OneToOne(mappedBy: "reservation", targetEntity: Paiement::class, cascade: ["persist", "remove"])]
+    private ?Paiement $paiement = null;
+
+    #[ORM\OneToMany(targetEntity: WaypointSuggestion::class, mappedBy: "reservation", cascade: ["persist", "remove"], orphanRemoval: true)]
+    private Collection $waypointSuggestions;
+
+    #[ORM\OneToMany(targetEntity: Waypoint::class, mappedBy: "reservation", cascade: ["persist", "remove"], orphanRemoval: true)]
+    private Collection $waypoints;
+
+    public function __construct()
     {
-        return $this->id;
+        $this->waypointSuggestions = new ArrayCollection();
+        $this->waypoints = new ArrayCollection();
     }
 
-    public function getDateReservation(): ?\DateTimeInterface
+    public function getIdReservation(): int
+    {
+        return $this->id_reservation;
+    }
+
+    public function getDateReservation(): string
     {
         return $this->date_reservation;
     }
 
-    public function setDateReservation(\DateTimeInterface $date_reservation): static
+    public function setDateReservation(string $date_reservation): self
     {
         $this->date_reservation = $date_reservation;
-
         return $this;
     }
 
-    public function getNbrplace(): ?int
+    public function getNbrPlaces(): int
     {
-        return $this->nbrplace;
+        return $this->nbrPlaces;
     }
 
-    public function setNbrplace(int $nbrplace): static
+    public function setNbrPlaces(int $nbrPlaces): self
     {
-        $this->nbrplace = $nbrplace;
-
+        $this->nbrPlaces = $nbrPlaces;
         return $this;
     }
 
-    public function isValidite(): ?bool
-    {
-        return $this->validite;
-    }
-
-    public function setValidite(?bool $validite): static
-    {
-        $this->validite = $validite;
-
-        return $this;
-    }
-
-    public function getEtat(): ?string
+    public function getEtat(): Etat
     {
         return $this->etat;
     }
 
-    public function setEtat(string $etat): static
+    public function setEtat(Etat $etat): self
     {
         $this->etat = $etat;
+        return $this;
+    }
+
+    public function getPassager(): Passager
+    {
+        return $this->passager;
+    }
+
+    public function setPassager(Passager $passager): self
+    {
+        $this->passager = $passager;
+        return $this;
+    }
+
+    public function getAnnonce(): Annonce
+    {
+        return $this->annonce;
+    }
+
+    public function setAnnonce(Annonce $annonce): self
+    {
+        $this->annonce = $annonce;
+        return $this;
+    }
+
+    public function getPaiement(): ?Paiement
+    {
+        return $this->paiement;
+    }
+
+    public function setPaiement(?Paiement $paiement): self
+    {
+        if ($this->paiement !== null) {
+            $this->paiement->setReservation(null);
+        }
+
+        $this->paiement = $paiement;
+
+        if ($paiement !== null) {
+            $paiement->setReservation($this);
+        }
 
         return $this;
     }
-    #[ORM\ManyToOne(targetEntity: Annonce::class)]
-    private ?Annonce $annonce;
 
+    public function getWaypointSuggestions(): Collection
+    {
+        return $this->waypointSuggestions;
+    }
+
+    public function addWaypointSuggestion(WaypointSuggestion $waypointSuggestion): self
+    {
+        if (!$this->waypointSuggestions->contains($waypointSuggestion)) {
+            $this->waypointSuggestions[] = $waypointSuggestion;
+            $waypointSuggestion->setReservation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWaypointSuggestion(WaypointSuggestion $waypointSuggestion): self
+    {
+        if ($this->waypointSuggestions->removeElement($waypointSuggestion)) {
+            if ($waypointSuggestion->getReservation() === $this) {
+                $waypointSuggestion->setReservation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getWaypoints(): Collection
+    {
+        return $this->waypoints;
+    }
+
+    public function addWaypoint(Waypoint $waypoint): self
+    {
+        if (!$this->waypoints->contains($waypoint)) {
+            $this->waypoints[] = $waypoint;
+            $waypoint->setReservation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWaypoint(Waypoint $waypoint): self
+    {
+        if ($this->waypoints->removeElement($waypoint)) {
+            if ($waypoint->getReservation() === $this) {
+                $waypoint->setReservation(null);
+            }
+        }
+
+        return $this;
+    }
 }
