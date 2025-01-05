@@ -71,13 +71,18 @@ final class AnnonceController extends AbstractController
     #[Route('/{id}', name: 'app_annonce_delete', methods: ['POST'])]
     public function delete(Request $request, Annonce $annonce, EntityManagerInterface $entityManager): Response
     {
+<<<<<<< HEAD
         if ($this->isCsrfTokenValid('delete'.$annonce->getId(), $request->getPayload()->getString('_token'))) {
+=======
+        if ($this->isCsrfTokenValid('delete' . $annonce->getId(), $request->getPayload()->getString('_token'))) {
+>>>>>>> 2770c5b04fde1c00f85c9278b3448a36307b2bca
             $entityManager->remove($annonce);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('app_annonce_index', [], Response::HTTP_SEE_OTHER);
     }
+<<<<<<< HEAD
     /**
      * Récupère toutes les annonces d'un conducteur donné.
      *
@@ -124,4 +129,6 @@ final class AnnonceController extends AbstractController
 
     }
 
+=======
+>>>>>>> 2770c5b04fde1c00f85c9278b3448a36307b2bca
 }

@@ -6,6 +6,7 @@ use App\Entity\Waypoint;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+<<<<<<< HEAD
 /**
  * @extends ServiceEntityRepository<Waypoint>
  *
@@ -14,12 +15,15 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Waypoint[]    findAll()
  * @method Waypoint[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+=======
+>>>>>>> 2770c5b04fde1c00f85c9278b3448a36307b2bca
 class WaypointRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Waypoint::class);
     }
+<<<<<<< HEAD
 
     /**
      * Exemple de méthode personnalisée
@@ -38,4 +42,6 @@ class WaypointRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+=======
+>>>>>>> 2770c5b04fde1c00f85c9278b3448a36307b2bca
 }

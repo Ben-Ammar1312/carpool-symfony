@@ -8,12 +8,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class RegisterController extends AbstractController
 {
@@ -29,17 +28,30 @@ class RegisterController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Retrieve passwords from form data
+            // Récupérer les mots de passe
             $plaintextPassword = $form->get('plainPassword')->getData();
             $confirmPassword = $form->get('confirm_password')->getData();
 
-            // Check if passwords match
+            // Vérifier si les mots de passe correspondent
             if ($plaintextPassword !== $confirmPassword) {
                 $this->addFlash('error', 'Les mots de passe ne correspondent pas.');
                 return $this->redirectToRoute('app_register');
             }
 
-            // Profile picture upload
+            // Gestion des rôles
+            $type = $form->get('type')->getData(); // Récupérer la valeur du champ 'type'
+            $roles = [Utilisateur::ROLE_USER]; // Rôle par défaut
+
+            if ($type === 'conducteur') {
+                $roles[] = Utilisateur::ROLE_CONDUCTEUR;
+            } elseif ($type === 'passager') {
+                $roles[] = Utilisateur::ROLE_PASSAGER;
+            } elseif ($type === 'admin') {
+                $roles[] = Utilisateur::ROLE_ADMIN;
+            }
+            $user->setRoles($roles);
+
+            // Gestion de l'upload de la photo de profil
             $file = $form->get('profilePic')->getData();
             if ($file) {
                 $fileName = uniqid() . '.' . $file->guessExtension();
@@ -54,14 +66,15 @@ class RegisterController extends AbstractController
                     return $this->redirectToRoute('app_register');
                 }
             } else {
-                // Set default profile picture if none is provided
+                // Définir une image par défaut si aucune image n'est fournie
                 $user->setProfilePic('/images/default-profile.png');
             }
 
-            // Hash password and save user
+            // Hashage du mot de passe
             $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
             $user->setPassword($hashedPassword);
 
+            // Enregistrer l'utilisateur
             try {
                 $entityManager->persist($user);
                 $entityManager->flush();
@@ -78,4 +91,5 @@ class RegisterController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    
 }

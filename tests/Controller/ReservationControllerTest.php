@@ -2,7 +2,11 @@
 
 namespace App\Tests\Controller;
 
+<<<<<<< HEAD
 use App\Entity\Reservation;
+=======
+use assets\Entity\Reservation;
+>>>>>>> 2770c5b04fde1c00f85c9278b3448a36307b2bca
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;

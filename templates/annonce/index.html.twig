@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+<<<<<<< HEAD
 {% block title %}Annonce Index{% endblock %}
 
 {% block body %}
@@ -52,4 +53,54 @@
             <a href="{{ path('app_annonce_new') }}" class="btn btn-primary">Créer une nouvelle annonce</a>
         </div>
     </div>
+=======
+{% block title %}Annonce index{% endblock %}
+
+{% block body %}
+    <h1>Annonce index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateDepart</th>
+                <th>NbrPlace</th>
+                <th>LieuDepart</th>
+                <th>LieuArrive</th>
+                <th>HeureDepart</th>
+                <th>Description</th>
+                <th>Aller_retour</th>
+                <th>Regulier</th>
+                <th>Prix</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for annonce in annonces %}
+            <tr>
+                <td>{{ annonce.id }}</td>
+                <td>{{ annonce.dateDepart ? annonce.dateDepart|date('Y-m-d') : '' }}</td>
+                <td>{{ annonce.nbrPlace }}</td>
+                <td>{{ annonce.lieuDepart }}</td>
+                <td>{{ annonce.lieuArrive }}</td>
+                <td>{{ annonce.heureDepart }}</td>
+                <td>{{ annonce.description }}</td>
+                <td>{{ annonce.allerRetour }}</td>
+                <td>{{ annonce.regulier ? 'Yes' : 'No' }}</td>
+                <td>{{ annonce.prix }}</td>
+                <td>
+                    <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">show</a>
+                    <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_annonce_new') }}">Create new</a>
+>>>>>>> 2770c5b04fde1c00f85c9278b3448a36307b2bca
 {% endblock %}

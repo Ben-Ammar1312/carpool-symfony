@@ -3,15 +3,22 @@ services:
     image: mysql:8.0.32
     container_name: symfony
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"  # Allow root with no password
       MYSQL_DATABASE: carpool_symfony
+<<<<<<< HEAD:docker/docker-compose.yml
       MYSQL_USER: nour
       MYSQL_PASSWORD:
+=======
+>>>>>>> 2770c5b04fde1c00f85c9278b3448a36307b2bca:docker-compose.yml
     ports:
-      - "3306:3306"
+      - "3307:3306"
     networks:
       dev:
 
+<<<<<<< HEAD:docker/docker-compose.yml
+=======
+
+>>>>>>> 2770c5b04fde1c00f85c9278b3448a36307b2bca:docker-compose.yml
 
   web:
     build: php
@@ -28,4 +35,7 @@ services:
 
 networks:
   dev:
+<<<<<<< HEAD:docker/docker-compose.yml
 
+=======
+>>>>>>> 2770c5b04fde1c00f85c9278b3448a36307b2bca:docker-compose.yml

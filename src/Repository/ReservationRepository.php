@@ -6,9 +6,6 @@ use App\Entity\Reservation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Reservation>
- */
 class ReservationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,28 +13,43 @@ class ReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reservation::class);
     }
 
-    //    /**
-    //     * @return Reservation[] Returns an array of Reservation objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('r.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function save(Reservation $reservation, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($reservation);
 
-    //    public function findOneBySomeField($value): ?Reservation
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(Reservation $reservation, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($reservation);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function findByPassagerIdAndEtat(int $userId, string $etat): array
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.passager = :userId')
+            ->andWhere('r.etat = :etat')
+            ->setParameter('userId', $userId)
+            ->setParameter('etat', $etat)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByAnnonceIdAndPassagerId(int $annonceId, int $passagerId): ?Reservation
+    {
+        return $this->createQueryBuilder('r')
+            ->where('r.annonce = :annonceId')
+            ->andWhere('r.passager = :passagerId')
+            ->setParameter('annonceId', $annonceId)
+            ->setParameter('passagerId', $passagerId)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
