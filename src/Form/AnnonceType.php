@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-<<<<<<< HEAD
+
 use App\Entity\Annonce;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -62,40 +62,5 @@ class AnnonceType extends AbstractType
                 'required' => true,
                 'attr' => ['min' => 0, 'step' => 5],
             ]);
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
-=======
-use App\Entity\Conducteur;use assets\Entity\Annonce;use Symfony\Bridge\Doctrine\Form\Type\EntityType;use Symfony\Component\Form\AbstractType;use Symfony\Component\Form\FormBuilderInterface;use Symfony\Component\OptionsResolver\OptionsResolver;
-
-class AnnonceType extends AbstractType
-{
-    public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
-        $builder
-            ->add('dateDepart', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('nbrPlace')
-            ->add('lieuDepart')
-            ->add('lieuArrive')
-            ->add('heureDepart')
-            ->add('description')
-            ->add('aller_retour')
-            ->add('regulier')
-            ->add('prix')
-            ->add('conducteur', EntityType::class, [
-                'class' => Conducteur::class,
-                'choice_label' => 'id',
-            ])
-        ;
-    }
-
-    public function configureOptions(OptionsResolver $resolver): void
->>>>>>> 2770c5b04fde1c00f85c9278b3448a36307b2bca
-    {
-        $resolver->setDefaults([
-            'data_class' => Annonce::class,
-        ]);
     }
 }
