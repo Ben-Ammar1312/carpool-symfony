@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\Status;
 use assets\Repository\ReclamationRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -26,6 +27,9 @@ class Reclamation
     #[ORM\Column(length: 100)]
     private ?string $reponse_reclamation = null;
 
+    #[ORM\Column(type: "string", enumType: Status::class)]
+    private Status $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -36,6 +40,18 @@ class Reclamation
         return $this->date_reclamation;
     }
 
+
+    public function getStatus(): Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(Status $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
     public function setDateReclamation(\DateTimeInterface $date_reclamation): static
     {
         $this->date_reclamation = $date_reclamation;
