@@ -14,11 +14,6 @@ class ConducteurService
         $this->conducteurRepository = $conducteurRepository;
     }
 
-    /**
-     * Retrieve all Conducteur entities.
-     *
-     * @return Conducteur[]
-     */
     public function getAllConducteur(): array
     {
         return $this->conducteurRepository->findAll();

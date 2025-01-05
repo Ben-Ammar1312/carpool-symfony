@@ -13,12 +13,6 @@ class ConducteurRepository extends ServiceEntityRepository
         parent::__construct($registry, Conducteur::class);
     }
 
-    /**
-     * Trouver un conducteur par son email.
-     *
-     * @param string $email
-     * @return Conducteur|null
-     */
     public function findByEmail(string $email): ?Conducteur
     {
         return $this->createQueryBuilder('c')
