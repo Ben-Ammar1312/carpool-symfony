@@ -3,7 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Chat;
-use App\Entity\User;
+use App\Entity\Utilisateur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\QueryBuilder;
@@ -18,10 +18,10 @@ class ChatRepository extends ServiceEntityRepository
     /**
      * Trouver les chats auxquels un utilisateur participe.
      *
-     * @param User $user
+     * @param Utilisateur $user
      * @return Chat[]
      */
-    public function findByParticipantsContaining(User $user): array
+    public function findByParticipantsContaining(Utilisateur $user): array
     {
         return $this->createQueryBuilder('c')
             ->leftJoin('c.participants', 'p')
@@ -52,10 +52,10 @@ class ChatRepository extends ServiceEntityRepository
      * Trouver un chat par l'ID de l'annonce et vérifier si un utilisateur est participant.
      *
      * @param int $rideId
-     * @param User $participant
+     * @param Utilisateur $participant
      * @return Chat|null
      */
-    public function findByAnnonce_IdAnnonceAndParticipantsContaining(int $rideId, User $participant): ?Chat
+    public function findByAnnonce_IdAnnonceAndParticipantsContaining(int $rideId, Utilisateur $participant): ?Chat
     {
         return $this->createQueryBuilder('c')
             ->leftJoin('c.participants', 'p')

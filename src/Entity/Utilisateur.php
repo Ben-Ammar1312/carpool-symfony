@@ -115,6 +115,14 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
     }
+
+    public function addChat(Chat $param)
+    {
+    }
+
+    public function removeChat(Chat $param)
+    {
+    }
 }
 
 
