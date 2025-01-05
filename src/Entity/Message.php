@@ -73,4 +73,8 @@ class Message
         $this->sender = $sender;
         return $this;
     }
+
+    public function setChat(Chat $param)
+    {
+    }
 }
