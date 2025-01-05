@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\WaypointSuggestionRepository;
+<<<<<<< HEAD
+=======
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+>>>>>>> 2770c5b04fde1c00f85c9278b3448a36307b2bca
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: WaypointSuggestionRepository::class)]
@@ -12,6 +15,15 @@ class WaypointSuggestion
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
+<<<<<<< HEAD
+    #[ORM\Column]
+    private ?int $id = null;
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+=======
     #[ORM\Column(type: "integer")]
     private int $id;
 
@@ -160,4 +172,5 @@ class WaypointSuggestion
         $this->approvedByPassengers->removeElement($passenger);
         return $this;
     }
+>>>>>>> 2770c5b04fde1c00f85c9278b3448a36307b2bca
 }

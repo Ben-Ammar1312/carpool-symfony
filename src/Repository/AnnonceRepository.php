@@ -29,6 +29,44 @@ class AnnonceRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+<<<<<<< HEAD
+//    public function findOneBySomeField($value): ?Annonce
+//    {
+//        return $this->createQueryBuilder('a')
+//            ->andWhere('a.exampleField = :val')
+//            ->setParameter('val', $value)
+//            ->getQuery()
+//            ->getOneOrNullResult()
+//        ;
+//    }
+    /**
+     * @param int $conducteurId
+     * @return Annonce[] Returns an array of Annonce objects for the given conducteur
+     */
+    public function findByConducteurId(int $conducteurId): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.conducteur = :conducteurId')
+            ->setParameter('conducteurId', $conducteurId)
+            ->orderBy('a.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+    /**
+     * @return Annonce[] Returns an array of active Annonce objects
+     */
+    public function findActiveAnnonces(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.status = :status')
+            ->setParameter('status', 'active') // Remplacez 'active' par la valeur utilisée dans votre application
+            ->orderBy('a.createdAt', 'DESC') // Tri par date de création
+            ->getQuery()
+            ->getResult();
+    }
+
+
+=======
     public function searchRides(
         ?string $lieuDepart,
         ?string $lieuArrivee,
@@ -54,4 +92,5 @@ class AnnonceRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+>>>>>>> 2770c5b04fde1c00f85c9278b3448a36307b2bca
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Repository;
 
 use App\Entity\WaypointSuggestion;
@@ -21,5 +20,6 @@ class WaypointSuggestionRepository extends ServiceEntityRepository
             ->setParameter('annonceId', $annonceId)
             ->getQuery()
             ->getResult();
+
     }
 }

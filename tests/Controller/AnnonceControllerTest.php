@@ -2,7 +2,15 @@
 
 namespace App\Tests\Controller;
 
+<<<<<<< HEAD
+use App\Entity\Annonce;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+=======
 use assets\Entity\Annonce;use Doctrine\ORM\EntityManagerInterface;use Doctrine\ORM\EntityRepository;use Symfony\Bundle\FrameworkBundle\KernelBrowser;use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+>>>>>>> 2770c5b04fde1c00f85c9278b3448a36307b2bca
 
 final class AnnonceControllerTest extends WebTestCase
 {
