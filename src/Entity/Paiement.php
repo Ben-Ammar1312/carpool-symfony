@@ -3,81 +3,91 @@
 namespace App\Entity;
 
 use App\Repository\PaiementRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Enum\Etat;
+use App\Enum\Mode;
 
 #[ORM\Entity(repositoryClass: PaiementRepository::class)]
 class Paiement
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[ORM\Column(type: "integer")]
+    private int $id_paiement;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_paiement = null;
+    #[ORM\Column(type: "string", length: 255)]
+    private string $date_paiement;
 
-    #[ORM\Column(type: Types::BIGINT)]
-    private ?string $montant = null;
+    #[ORM\Column(type: "float")]
+    private float $montant;
 
-    #[ORM\Column(length: 50)]
-    private ?string $status = null;
+    #[ORM\Column(type: "string", enumType: Etat::class)]
+    private Etat $etat;
 
-    #[ORM\Column(length: 100)]
-    private ?string $mode = null;
+    #[ORM\Column(type: "string", enumType: Mode::class)]
+    private Mode $mode;
 
-    public function getId(): ?int
+    #[ORM\OneToOne(targetEntity: Reservation::class, inversedBy: "paiement", cascade: ["persist", "remove"])]
+    #[ORM\JoinColumn(name: "reservation_id", referencedColumnName: "id_reservation", nullable: false)]
+    private Reservation $reservation;
+
+    public function getIdPaiement(): int
     {
-        return $this->id;
+        return $this->id_paiement;
     }
 
-    public function getDatePaiement(): ?\DateTimeInterface
+    public function getDatePaiement(): string
     {
         return $this->date_paiement;
     }
 
-    public function setDatePaiement(\DateTimeInterface $date_paiement): static
+    public function setDatePaiement(string $date_paiement): self
     {
         $this->date_paiement = $date_paiement;
-
         return $this;
     }
 
-    public function getMontant(): ?string
+    public function getMontant(): float
     {
         return $this->montant;
     }
 
-    public function setMontant(string $montant): static
+    public function setMontant(float $montant): self
     {
         $this->montant = $montant;
-
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getEtat(): Etat
     {
-        return $this->status;
+        return $this->etat;
     }
 
-    public function setStatus(string $status): static
+    public function setEtat(Etat $etat): self
     {
-        $this->status = $status;
-
+        $this->etat = $etat;
         return $this;
     }
 
-    public function getMode(): ?string
+    public function getMode(): Mode
     {
         return $this->mode;
     }
 
-    public function setMode(string $mode): static
+    public function setMode(Mode $mode): self
     {
         $this->mode = $mode;
-
         return $this;
     }
-    #[ORM\OneToOne(targetEntity: Reservation::class)]
-    private Reservation $reservation;
+
+    public function getReservation(): Reservation
+    {
+        return $this->reservation;
+    }
+
+    public function setReservation(Reservation $reservation): self
+    {
+        $this->reservation = $reservation;
+        return $this;
+    }
 }

@@ -2,8 +2,7 @@
 
 namespace App\Tests;
 
-use App\Entity\Utilisateur;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use assets\Entity\Utilisateur;use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UtilisateurRepoTest extends KernelTestCase
 {

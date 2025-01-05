@@ -1,8 +1,7 @@
 <?php
 namespace App\Tests\Entity;
 
-use App\Entity\Avis;
-use PHPUnit\Framework\TestCase;
+use assets\Entity\Avis;use PHPUnit\Framework\TestCase;
 
 class AvisTest extends TestCase
 {

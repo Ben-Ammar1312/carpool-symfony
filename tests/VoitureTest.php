@@ -2,8 +2,8 @@
 
 namespace App\Tests\Entity;
 
-use App\Entity\Voiture; // Vérifiez si votre entité `Voiture` est dans ce namespace
-use PHPUnit\Framework\TestCase;
+use assets\Entity\Voiture;use PHPUnit\Framework\TestCase;
+// Vérifiez si votre entité `Voiture` est dans ce namespace
 
 class VoitureTest extends TestCase
 {

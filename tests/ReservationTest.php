@@ -1,7 +1,7 @@
 <?php
 namespace App\Tests\Entity;
 
-use App\Entity\Reservation;
+use assets\Entity\Reservation;
 use PHPUnit\Framework\TestCase;
 
 class ReservationTest extends TestCase
