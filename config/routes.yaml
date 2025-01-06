@@ -4,17 +4,6 @@ controllers:
         namespace: App\Controller
     type: attribute
 
-notifications:
-    path: /topic/notifications
-    controller: App\WebSocket\NotificationsHandler
-
-chat:
-    path: /topic/chat
-    controller: App\WebSocket\ChatHandler
-
-unread_count:
-    path: /topic/unreadCount
-    controller: App\WebSocket\UnreadCountHandler
 
 
 
