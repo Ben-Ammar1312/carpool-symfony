@@ -2,12 +2,11 @@
 
 namespace App\Controller;
 
-use App\DTO\NotificationDTO;
+use App\Form\NotificationDTO;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mercure\PublisherInterface;
 use Symfony\Component\Mercure\Update;
-use Symfony\Component\Routing\Annotation\Route;
 
 class NotificationWebSocketController extends AbstractController
 {

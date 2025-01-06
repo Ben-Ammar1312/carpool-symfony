@@ -1,8 +1,7 @@
 <?php
+namespace App\Form;
 
-namespace App\DTO;
-
-class NotificationDTO
+class BookingResponse
 {
     private string $message;
 
@@ -21,3 +20,4 @@ class NotificationDTO
         $this->message = $message;
     }
 }
+
