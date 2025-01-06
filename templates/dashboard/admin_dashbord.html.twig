@@ -1,0 +1,170 @@
+{# templates/page/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Page Title{% endblock %}
+
+{% block body %}
+    {# En-tête et navigation #}
+    <header>
+        <nav>
+            <a href="/">Accueil</a>
+            <a href="/about">À propos</a>
+            <a href="/contact">Contact</a>
+        </nav>
+    </header>
+
+    {# Section Héro #}
+    <section class="hero">
+        <h1>Bienvenue sur notre site</h1>
+        <p>Recherchez des trajets facilement</p>
+        <div class="search-bar">
+            <input type="text" placeholder="Rechercher un trajet..." />
+            <button>Rechercher</button>
+        </div>
+    </section>
+
+    {# Formulaire de connexion #}
+    <section class="sign-in-form">
+        <h2>Connexion</h2>
+        <form action="/sign-in" method="POST">
+            <input type="email" placeholder="Votre email" required />
+            <input type="password" placeholder="Votre mot de passe" required />
+            <button type="submit">Se connecter</button>
+        </form>
+    </section>
+
+    {# Formulaire d'inscription #}
+    <section class="sign-up-form">
+        <h2>Inscription</h2>
+        <form action="/sign-up" method="POST">
+            <input type="email" placeholder="Votre email" required />
+            <input type="password" placeholder="Votre mot de passe" required />
+            <button type="submit">S'inscrire</button>
+        </form>
+    </section>
+
+    {# Section de profil #}
+    <section class="profile-form">
+        <h2>Mon Profil</h2>
+        <form action="/update-profile" method="POST">
+            <input type="text" placeholder="Votre nom" required />
+            <input type="email" placeholder="Votre email" required />
+            <button type="submit">Mettre à jour</button>
+        </form>
+    </section>
+
+    {# Section de publication de trajet #}
+    <section class="ride-posting-form">
+        <h2>Publier un trajet</h2>
+        <form action="/post-ride" method="POST">
+            <input type="text" placeholder="Ville de départ" required />
+            <input type="text" placeholder="Ville d'arrivée" required />
+            <input type="date" placeholder="Date" required />
+            <button type="submit">Publier</button>
+        </form>
+    </section>
+
+    {# Historique des trajets #}
+    <section class="ride-history-list">
+        <h2>Historique de trajets</h2>
+        <div class="ride">
+            <p>Trajet de Paris à Lyon - 12 Janvier 2025</p>
+        </div>
+        <div class="ride">
+            <p>Trajet de Marseille à Nice - 15 Janvier 2025</p>
+        </div>
+    </section>
+
+    {# Tableau de bord administrateur #}
+    <section class="admin-dashboard">
+        <h2>Dashboard Administrateur</h2>
+        <div class="admin-section">
+            <div class="admin-card">
+                <h3>Gestion des utilisateurs</h3>
+                <p>Gérer les utilisateurs de la plateforme</p>
+                <button>Accéder</button>
+            </div>
+            <div class="admin-card">
+                <h3>Gestion des trajets</h3>
+                <p>Gérer les trajets publiés</p>
+                <button>Accéder</button>
+            </div>
+        </div>
+    </section>
+
+    {# Chat en direct #}
+    <section class="chat-interface">
+        <h2>Chat en direct</h2>
+        <div class="chat-window">
+            <div class="message-container">
+                <div class="message sender">
+                    <p>Bonjour, comment puis-je vous aider ?</p>
+                </div>
+                <div class="message receiver">
+                    <p>J'ai une question concernant les trajets.</p>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input type="text" placeholder="Votre message..." />
+                <button type="submit">Envoyer</button>
+            </div>
+        </div>
+    </section>
+
+    {# Formulaire de paiement #}
+    <section class="payment-form">
+        <h2>Paiement</h2>
+        <form action="/process-payment" method="POST">
+            <input type="text" placeholder="Nom sur la carte" required />
+            <input type="text" placeholder="Numéro de carte" required />
+            <button type="submit">Payer</button>
+        </form>
+    </section>
+
+    {# Formulaire d'évaluation #}
+    <section class="review-form">
+        <h2>Laissez une évaluation</h2>
+        <form action="/submit-review" method="POST">
+            <div class="rating">
+                <label for="rating">Note</label>
+                <select id="rating" name="rating">
+                    <option value="1">1 étoile</option>
+                    <option value="2">2 étoiles</option>
+                    <option value="3">3 étoiles</option>
+                    <option value="4">4 étoiles</option>
+                    <option value="5">5 étoiles</option>
+                </select>
+            </div>
+            <textarea placeholder="Votre commentaire"></textarea>
+            <button type="submit">Soumettre</button>
+        </form>
+    </section>
+
+    {# Assistance et FAQ #}
+    <section class="support-section">
+        <h2>Assistance</h2>
+        <div class="faq">
+            <h3>Questions fréquemment posées</h3>
+            <div class="faq-item">
+                <h3>Comment puis-je publier un trajet ?</h3>
+                <p>Pour publier un trajet, veuillez vous connecter et remplir le formulaire de publication.</p>
+            </div>
+        </div>
+        <div class="contact-support">
+            <h3>Contactez notre support</h3>
+            <form class="support-form" action="/contact-support" method="POST">
+                <input type="email" placeholder="Votre email" required />
+                <textarea placeholder="Votre message" required></textarea>
+                <button type="submit">Envoyer</button>
+            </form>
+        </div>
+    </section>
+
+    {# Footer #}
+    <footer>
+        <p>&copy; 2025 VotreSite. Tous droits réservés.</p>
+        <a href="/privacy-policy">Politique de confidentialité</a>
+        <a href="/terms-of-service">Conditions d'utilisation</a>
+    </footer>
+{% endblock %}
