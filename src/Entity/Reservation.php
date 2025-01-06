@@ -30,7 +30,7 @@ class Reservation
     private Passager $passager;
 
     #[ORM\ManyToOne(targetEntity: Annonce::class, inversedBy: "reservations")]
-    #[ORM\JoinColumn(name: "idAnnonce", referencedColumnName: "idAnnonce", nullable: false)]
+    #[ORM\JoinColumn(name: "idAnnonce", referencedColumnName: "id", nullable: false)]
     private Annonce $annonce;
 
     #[ORM\OneToOne(mappedBy: "reservation", targetEntity: Paiement::class, cascade: ["persist", "remove"])]

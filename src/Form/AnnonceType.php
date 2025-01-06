@@ -2,7 +2,6 @@
 
 namespace App\Form;
 
-
 use App\Entity\Annonce;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

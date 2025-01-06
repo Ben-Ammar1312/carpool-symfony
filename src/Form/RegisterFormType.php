@@ -2,7 +2,19 @@
 
 namespace App\Form;
 
-use assets\Entity\Utilisateur;use Symfony\Component\Form\AbstractType;use Symfony\Component\Form\Extension\Core\Type\CheckboxType;use Symfony\Component\Form\Extension\Core\Type\EmailType;use Symfony\Component\Form\Extension\Core\Type\FileType;use Symfony\Component\Form\Extension\Core\Type\PasswordType;use Symfony\Component\Form\Extension\Core\Type\TextType;use Symfony\Component\Form\FormBuilderInterface;use Symfony\Component\OptionsResolver\OptionsResolver;use Symfony\Component\Validator\Constraints\IsTrue;use Symfony\Component\Validator\Constraints\Length;use Symfony\Component\Validator\Constraints\NotBlank;
+use App\Entity\Utilisateur;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType; // Import ChoiceType
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\IsTrue;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class RegisterFormType extends AbstractType
 {
@@ -25,13 +37,27 @@ class RegisterFormType extends AbstractType
                 'label' => 'Email',
                 'required' => true,
             ])
-            ->add('username', TextType::class, [
-                'label' => 'Nom d\'utilisateur',
-                'required' => true,
-            ])
-            ->add('genre', TextType::class, [
+
+            ->add('genre', ChoiceType::class, [ // Changed to ChoiceType for better user input
                 'label' => 'Genre',
                 'required' => true,
+                'choices' => [
+                    'Masculin' => 'masculin',
+                    'Féminin' => 'feminin',
+                    'Autre' => 'autre',
+                ],
+                'placeholder' => 'Sélectionnez un genre',
+            ])
+            ->add('type', ChoiceType::class, [ // Adjusted type field
+                'label' => 'Type d\'utilisateur',
+                'choices' => [
+                    'Conducteur' => 'conducteur',
+                    'Passager' => 'passager',
+                    'Admin' => 'admin',
+                ],
+                'required' => true,
+                'placeholder' => 'Sélectionnez un type',
+                'mapped' => false, // Prevent mapping to the entity
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,

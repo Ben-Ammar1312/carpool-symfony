@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Admin;
+use App\Entity\Conducteur;
+use App\Entity\Passager;
 use App\Entity\Utilisateur;
 use App\Form\RegisterFormType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,8 +26,7 @@ class RegisterController extends AbstractController
         EntityManagerInterface $entityManager,
         LoggerInterface $logger
     ): Response {
-        $user = new Utilisateur();
-        $form = $this->createForm(RegisterFormType::class, $user);
+        $form = $this->createForm(RegisterFormType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -40,8 +42,32 @@ class RegisterController extends AbstractController
 
             // Gestion des rôles
             $type = $form->get('type')->getData(); // Récupérer la valeur du champ 'type'
-            $roles = [Utilisateur::ROLE_USER]; // Rôle par défaut
 
+            // Instantiate the correct subclass based on type
+            switch ($type) {
+                case 'conducteur':
+                    $user = new Conducteur();
+                    break;
+                case 'passager':
+                    $user = new Passager();
+                    break;
+                case 'admin':
+                    $user = new Admin();
+                    break;
+                default:
+                    $user = new Utilisateur();
+                    break;
+            }
+
+            // Map form data to user
+            $user->setNom($form->get('nom')->getData());
+            $user->setPrenom($form->get('prenom')->getData());
+            $user->setTelephone($form->get('telephone')->getData());
+            $user->setEmail($form->get('email')->getData());
+            $user->setGenre($form->get('genre')->getData());
+
+            // Handle roles
+            $roles = [Utilisateur::ROLE_USER]; // Rôle par défaut
             if ($type === 'conducteur') {
                 $roles[] = Utilisateur::ROLE_CONDUCTEUR;
             } elseif ($type === 'passager') {
@@ -91,5 +117,4 @@ class RegisterController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-    
 }
