@@ -27,7 +27,7 @@ class PickupPoint
     // Getters and Setters
 
     #[ORM\ManyToOne(targetEntity: Annonce::class, inversedBy: "pickupPoints")]
-    #[ORM\JoinColumn(name: "idAnnonce", referencedColumnName: "idAnnonce", nullable: false, onDelete: "CASCADE")]
+    #[ORM\JoinColumn(name: "idAnnonce", referencedColumnName: "id_annonce", nullable: false, onDelete: "CASCADE")]
     private ?Annonce $annonce;
 
     public function getId(): int

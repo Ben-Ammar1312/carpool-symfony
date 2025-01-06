@@ -6,7 +6,7 @@ use App\Entity\Conducteur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class ConducteurRepository extends ServiceEntityRepository
+class ContactMessageRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

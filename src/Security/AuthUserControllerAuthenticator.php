@@ -28,33 +28,35 @@ class AuthUserControllerAuthenticator extends AbstractLoginFormAuthenticator
 
     public function authenticate(Request $request): Passport
     {
-        $email = $request->getPayload()->getString('email');
+        $email = $request->request->get('email');  // Utilisation de get pour obtenir les paramètres du formulaire
 
+        // Enregistrer le dernier email dans la session pour la fonction "last_username" de Symfony
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
 
+        // Créer le Passport avec les informations d'authentification
         return new Passport(
-            new UserBadge($email),
-            new PasswordCredentials($request->getPayload()->getString('password')),
+            new UserBadge($email),  // Badge pour l'email
+            new PasswordCredentials($request->request->get('password')),  // Badge pour le mot de passe
             [
-                new CsrfTokenBadge('authenticate', $request->getPayload()->getString('_csrf_token')),
-                new RememberMeBadge(),
+                new CsrfTokenBadge('authenticate', $request->request->get('_csrf_token')),  // Token CSRF pour la sécurité
+                new RememberMeBadge(),  // Badge pour la fonctionnalité "Se souvenir de moi"
             ]
         );
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        // Si l'utilisateur revient à une page précédente, redirigez-le vers cette page
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-        // return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        // Si aucun chemin cible n'est défini, redirigez l'utilisateur vers le tableau de bord
+        return new RedirectResponse($this->urlGenerator->generate('app_dashboard'));
     }
 
     protected function getLoginUrl(Request $request): string
     {
-        return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+        return $this->urlGenerator->generate(self::LOGIN_ROUTE);  // Retourne l'URL de la page de login
     }
 }

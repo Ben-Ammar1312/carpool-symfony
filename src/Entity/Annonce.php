@@ -16,7 +16,7 @@ class Annonce
     #[ORM\GeneratedValue(strategy: "AUTO")]
     #[ORM\Column(type: "integer")]
     #[Groups(['annonce:read', 'annonce:write'])]
-    private int $idAnnonce;
+    private int $id;
 
     #[ORM\Column(type: "date")]
     #[Groups(['annonce:read', 'annonce:write'])]
@@ -48,19 +48,19 @@ class Annonce
 
     #[ORM\Column(type: "float", nullable: true)]
     #[Groups(['annonce:read', 'annonce:write'])]
-    private ?float $departLat;
+    private ?float $departLat = null;
 
     #[ORM\Column(type: "float", nullable: true)]
     #[Groups(['annonce:read', 'annonce:write'])]
-    private ?float $departLng;
+    private ?float $departLng = null;
 
     #[ORM\Column(type: "float", nullable: true)]
     #[Groups(['annonce:read', 'annonce:write'])]
-    private ?float $arriveLat;
+    private ?float $arriveLat = null;
 
     #[ORM\Column(type: "float", nullable: true)]
     #[Groups(['annonce:read', 'annonce:write'])]
-    private ?float $arriveLng;
+    private ?float $arriveLng = null;
 
     #[ORM\Column(type: "string", enumType: Status::class)]
     #[Groups(['annonce:read', 'annonce:write'])]
@@ -83,7 +83,9 @@ class Annonce
     #[ORM\OneToMany(targetEntity: PickupPoint::class, mappedBy: "annonce", cascade: ["persist", "remove"], orphanRemoval: true)]
     private Collection $pickupPoints;
 
-
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    #[Groups(['annonce:read', 'annonce:write'])]
+    private ?string $title = null;
 
     public function __construct()
     {
@@ -93,7 +95,8 @@ class Annonce
         $this->pickupPoints = new ArrayCollection();
     }
 
-    // Getters and setters
+    // Getters and Setters
+
     public function getIdAnnonce(): int
     {
         return $this->idAnnonce;
@@ -337,14 +340,16 @@ class Annonce
         }
         return $this;
     }
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-        return $this;
-    }
-    public function getTitle(): string
+
+    // Getter and Setter for title
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+        return $this;
+    }
 }

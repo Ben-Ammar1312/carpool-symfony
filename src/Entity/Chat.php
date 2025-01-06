@@ -14,15 +14,15 @@ class Chat
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(fetch: 'EAGER', inversedBy: 'chats')]
-    #[ORM\JoinColumn(name: 'annonce_id', nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Annonce::class, inversedBy: 'chats')]
+    #[ORM\JoinColumn(name: 'annonce_id', referencedColumnName: 'id', nullable: false)]
     private ?Annonce $annonce = null;
 
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, inversedBy: 'chats', fetch: 'EAGER')]
     #[ORM\JoinTable(
         name: 'chat_participants',
-        joinColumns: [new ORM\JoinColumn(name: 'chat_id')],
-        inverseJoinColumns: [new ORM\JoinColumn(name: 'user_id')]
+        joinColumns: [new ORM\JoinColumn(name: 'chat_id', referencedColumnName: 'id')],
+        inverseJoinColumns: [new ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     )]
     private Collection $participants;
 
@@ -35,7 +35,8 @@ class Chat
         $this->messages = new ArrayCollection();
     }
 
-    // Getters and setters
+    // Getters and Setters
+
     public function getId(): ?int
     {
         return $this->id;
