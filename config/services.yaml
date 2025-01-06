@@ -31,3 +31,13 @@ services:
             $authToken: '%env(TWILIO_AUTH_TOKEN)%'
             $verifyServiceSid: '%env(TWILIO_VERIFY_SERVICE_SID)%'
 
+    App\Service\ObjectMapperFactory:
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'
+
+
+    App\Service\StripeService:
+        arguments:
+            $secretKey: '%env(STRIPE_SECRET_KEY)%'
+

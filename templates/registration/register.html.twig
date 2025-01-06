@@ -5,7 +5,7 @@
 {% block body %}
     <div class="container mt-5 d-flex justify-content-center">
         <div class="card p-4 shadow-lg" style="width: 500px;">
-            <h1 class="text-center">Inscription</h1>
+            <h1 class="text-center mb-4">Inscription</h1>
 
             {% for flash_error in app.flashes('error') %}
                 <div class="alert alert-danger">
@@ -19,55 +19,80 @@
                 </div>
             {% endfor %}
 
-            {{ form_start(form) }}
+            {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
 
-            <div class="form-group mb-3">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form_label(form.nom) }}
+                    {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.nom) }}
+                </div>
 
-                {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Nom'}}) }}
-                {{ form_errors(form.nom) }}
+                <div class="col-md-6 mb-3">
+                    {{ form_label(form.prenom) }}
+                    {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.prenom) }}
+                </div>
             </div>
 
-            <div class="form-group mb-3">
-
-                {{ form_widget(form.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Prénom'}}) }}
-                {{ form_errors(form.prenom) }}
-            </div>
-
-            <div class="form-group mb-3">
-
-                {{ form_widget(form.telephone, {'attr': {'class': 'form-control', 'placeholder': 'Téléphone'}}) }}
-                {{ form_errors(form.telephone) }}
-            </div>
-
-            <div class="form-group mb-3">
-
-                {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Email'}}) }}
+            <div class="mb-3">
+                {{ form_label(form.email) }}
+                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(form.email) }}
             </div>
 
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form_label(form.telephone) }}
+                    {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.telephone) }}
+                </div>
 
-            <div class="form-group mb-3">
-
-                {{ form_widget(form.genre, {'attr': {'class': 'form-control', 'placeholder': 'Genre'}}) }}
-                {{ form_errors(form.genre) }}
+                <div class="col-md-6 mb-3">
+                    {{ form_label(form.cin) }}
+                    {{ form_widget(form.cin, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.cin) }}
+                </div>
             </div>
 
-            <div class="form-group mb-3">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form_label(form.genre) }}
+                    {{ form_widget(form.genre, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.genre) }}
+                </div>
 
-                {{ form_widget(form.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Mot de passe'}}) }}
-                {{ form_errors(form.plainPassword) }}
+                <div class="col-md-6 mb-3">
+                    {{ form_label(form.type) }}
+                    {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.type) }}
+                </div>
             </div>
 
-            <div class="form-group mb-3">
-
-                {{ form_widget(form.confirm_password, {'attr': {'class': 'form-control', 'placeholder': 'Confirmer le mot de passe'}}) }}
-                {{ form_errors(form.confirm_password) }}
+            <div class="mb-3">
+                {{ form_label(form.adresse) }}
+                {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.adresse) }}
             </div>
 
-            <div class="form-group mb-3">
-
+            <div class="mb-3">
+                {{ form_label(form.profilePic) }}
                 {{ form_widget(form.profilePic, {'attr': {'class': 'form-control-file'}}) }}
                 {{ form_errors(form.profilePic) }}
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    {{ form_label(form.plainPassword) }}
+                    {{ form_widget(form.plainPassword, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.plainPassword) }}
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    {{ form_label(form.confirm_password) }}
+                    {{ form_widget(form.confirm_password, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.confirm_password) }}
+                </div>
             </div>
 
             <div class="form-check mb-3">

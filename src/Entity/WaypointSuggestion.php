@@ -31,7 +31,7 @@ class WaypointSuggestion
     private bool $isRejected = false;
 
     #[ORM\ManyToOne(targetEntity: Annonce::class, inversedBy: "waypoints")]
-    #[ORM\JoinColumn(name: "idAnnonce", referencedColumnName: "id", nullable: false)]
+    #[ORM\JoinColumn(name: "idAnnonce", referencedColumnName: "id_annonce", nullable: false)]
     private Annonce $annonce;
 
     #[ORM\ManyToOne(targetEntity: Reservation::class, inversedBy: 'waypointSuggestions')]

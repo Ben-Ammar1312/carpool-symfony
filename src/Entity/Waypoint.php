@@ -23,8 +23,8 @@ class Waypoint
     private ?string $address = null;
 
     #[ORM\ManyToOne(targetEntity: Annonce::class, inversedBy: "waypoints")]
-    #[ORM\JoinColumn(name: "idAnnonce", referencedColumnName: "id", nullable: false)]
-    private ?Annonce $annonce = null;
+    #[ORM\JoinColumn(name: "idAnnonce", referencedColumnName: "id_annonce", nullable: false)]
+    private Annonce $annonce;
 
     #[ORM\ManyToOne(targetEntity: Reservation::class, inversedBy: 'waypoints')]
     #[ORM\JoinColumn(name: "id_reservation", referencedColumnName: "id_reservation", nullable: true)]

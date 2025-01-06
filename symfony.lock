@@ -26,6 +26,12 @@
             "./migrations/.gitignore"
         ]
     },
+    "gos/pubsub-router-bundle": {
+        "version": "v2.8.0"
+    },
+    "gos/web-socket-bundle": {
+        "version": "v3.15.0"
+    },
     "phpstan/phpstan": {
         "version": "2.0",
         "recipe": {

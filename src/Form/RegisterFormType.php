@@ -4,8 +4,8 @@ namespace App\Form;
 
 use App\Entity\Utilisateur;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType; // Import ChoiceType
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -24,40 +24,60 @@ class RegisterFormType extends AbstractType
             ->add('nom', TextType::class, [
                 'label' => 'Nom',
                 'required' => true,
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Entrez votre nom'],
             ])
             ->add('prenom', TextType::class, [
                 'label' => 'Prénom',
                 'required' => true,
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Entrez votre prénom'],
+            ])
+            ->add('cin', TextType::class, [
+                'label' => 'CIN',
+                'required' => true,
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Entrez votre CIN'],
+            ])
+            ->add('adresse', TextType::class, [
+                'label' => 'Adresse',
+                'required' => true,
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Entrez votre adresse'],
             ])
             ->add('telephone', TextType::class, [
                 'label' => 'Téléphone',
                 'required' => true,
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Entrez votre numéro de téléphone'],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
                 'required' => true,
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Entrez votre adresse email'],
             ])
-
-            ->add('genre', ChoiceType::class, [ // Changed to ChoiceType for better user input
-                'label' => 'Genre',
-                'required' => true,
-                'choices' => [
-                    'Masculin' => 'masculin',
-                    'Féminin' => 'feminin',
-                    'Autre' => 'autre',
-                ],
-                'placeholder' => 'Sélectionnez un genre',
-            ])
-            ->add('type', ChoiceType::class, [ // Adjusted type field
+            ->add('type', ChoiceType::class, [
                 'label' => 'Type d\'utilisateur',
                 'choices' => [
-                    'Conducteur' => 'conducteur',
                     'Passager' => 'passager',
+                    'Conducteur' => 'conducteur',
                     'Admin' => 'admin',
                 ],
                 'required' => true,
-                'placeholder' => 'Sélectionnez un type',
-                'mapped' => false, // Prevent mapping to the entity
+                'mapped' => false, // Non mappé car géré manuellement dans le contrôleur
+                'placeholder' => 'Choisissez un type',
+                'attr' => ['class' => 'form-control'],
+            ])
+            ->add('profilePic', FileType::class, [
+                'label' => 'Photo de profil',
+                'required' => false,
+                'mapped' => false,
+                'attr' => ['class' => 'form-control-file'],
+            ])
+            ->add('genre', ChoiceType::class, [
+                'label' => 'Genre',
+                'choices' => [
+                    'Homme' => 'homme',
+                    'Femme' => 'femme',
+                ],
+                'required' => true,
+                'placeholder' => 'Choisissez votre genre',
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
@@ -65,6 +85,7 @@ class RegisterFormType extends AbstractType
                     new IsTrue(['message' => 'Vous devez accepter les termes.']),
                 ],
                 'label' => 'Accepter les termes',
+                'attr' => ['class' => 'form-check-input'],
             ])
             ->add('plainPassword', PasswordType::class, [
                 'mapped' => false,
@@ -77,16 +98,13 @@ class RegisterFormType extends AbstractType
                     ]),
                 ],
                 'label' => 'Mot de passe',
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Entrez un mot de passe'],
             ])
             ->add('confirm_password', PasswordType::class, [
                 'mapped' => false,
                 'required' => true,
                 'label' => 'Confirmer le mot de passe',
-            ])
-            ->add('profilePic', FileType::class, [
-                'label' => 'Photo de profil',
-                'required' => false,
-                'mapped' => false,
+                'attr' => ['class' => 'form-control', 'placeholder' => 'Confirmez votre mot de passe'],
             ]);
     }
 
